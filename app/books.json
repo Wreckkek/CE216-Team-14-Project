@@ -1,0 +1,36 @@
+[
+  {
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "year": 1925,
+    "genre": "Fiction",
+    "tags": [
+      "classic",
+      "love",
+      "wealth"
+    ]
+  },
+  {
+    "title": "Pride and ",
+    "author": "Jane Austen",
+    "year": 1813,
+    "genre": "Romance",
+    "tags": [
+      "classic",
+      "love",
+      "marriage"
+    ],
+    "publisher": "sfsdfsfsfs"
+  },
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "year": 1813,
+    "genre": "Romance",
+    "tags": [
+      "classic",
+      "love",
+      "marriage"
+    ]
+  }
+]
