@@ -12,6 +12,12 @@ plugins {
     id 'maven-publish' 
 }
 
+java {
+    // Set compatibility with the latest stable Java version
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -47,9 +53,8 @@ publishing {
 }
 jar {
     manifest {
-        attributes 'Main-Class': 'App.java' 
+        attributes 'Main-Class': 'BookManager1.App' 
     }
 }
-
 
 
