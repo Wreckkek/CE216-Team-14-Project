@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +45,13 @@ public class BookManagerFrame1 extends javax.swing.JFrame {
     private boolean fileImported = false; // fileImported variable
     // variable to track the currently imported file path
     private String importedFilePath = null;
+    private String getBasePath() {
+    // This returns the user's home directory path
+    return System.getProperty("user.home");
+}
+
   // Method to save books to JSON file
-    private void saveBooksToJson(String importedFilePath1) {
+    /*private void saveBooksToJson(String importedFilePath1) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         try {
@@ -68,6 +74,15 @@ public class BookManagerFrame1 extends javax.swing.JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error accessing the file system!");
         }
+    }*/
+    private void saveBooksToJson(String filePath) {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    try (FileWriter writer = new FileWriter(filePath)) {
+        gson.toJson(books, writer);
+    } catch (IOException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error saving books to JSON file!");
+    }
     }
     private void loadBooksFromJson(String filePath) {
         Gson gson = new Gson();
@@ -168,38 +183,41 @@ public class BookManagerFrame1 extends javax.swing.JFrame {
     }
 
     private void editBook() {
-        int selectedIndex = jList2.getSelectedIndex();
-        if (selectedIndex != -1) {
-            Book selectedBook = books.get(selectedIndex);
-            selectedBook.setTitle(jTextField1.getText());
-            selectedBook.setAuthor(jTextField2.getText());
-            selectedBook.setYear(Integer.parseInt(jTextField3.getText()));
-            selectedBook.setGenre(jTextField4.getText());
-            selectedBook.clearTags(); // Clear existing tags before adding new ones otherwise it gets out of hand
-            selectedBook.addTag(Arrays.asList(jTextField5.getText().split(","))); // may change this later on
-            selectedBook.setPublisher(jTextField8.getText());
-            // Save changes back to the imported JSON file
+    int selectedIndex = jList2.getSelectedIndex();
+    if (selectedIndex != -1) {
+        Book selectedBook = books.get(selectedIndex);
+        selectedBook.setTitle(jTextField1.getText());
+        selectedBook.setAuthor(jTextField2.getText());
+        selectedBook.setYear(Integer.parseInt(jTextField3.getText()));
+        selectedBook.setGenre(jTextField4.getText());
+        selectedBook.setPublisher(jTextField8.getText());
+        selectedBook.setTags(Arrays.asList(jTextField5.getText().split(",")));
+        try {
             saveBooksToJson(importedFilePath);
             JOptionPane.showMessageDialog(null, "Book edited successfully.");
-        } else {
-            JOptionPane.showMessageDialog(null, "Please select a book to edit.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Failed to edit book: " + e.getMessage());
         }
-    }
-
-// Add a method to create a new JSON file
-private void createNewJsonFile() {
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-    try (FileWriter writer = new FileWriter("new_books.json")) {
-        gson.toJson(new ArrayList<Book>(), writer);
-        fileImported = true; // Update the flag -> meaning a file has been imported
-        importedFilePath = "new_books.json"; // Update the imported file path
-        jTextField9.setText(importedFilePath); // Update the file path text field
-    } catch (IOException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error creating new JSON file.");
+    } else {
+        JOptionPane.showMessageDialog(null, "Please select a book to edit.");
     }
 }
+
+// Add a method to create a new JSON file
+    private void createNewJsonFile() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String filePath = getBasePath() + File.separator + "new_books.json";
+
+        try (FileWriter writer = new FileWriter(filePath)) {
+            gson.toJson(new ArrayList<>(), writer);
+            fileImported = true;
+            importedFilePath = filePath;
+            jTextField9.setText(filePath); // Display the path in the UI
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error creating new JSON file.");
+        }
+    }
 
 
 /*private void editBook() {
@@ -814,4 +832,6 @@ private void importBooks() {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+
+    
 }
