@@ -16,10 +16,11 @@ public class HelpWindow extends JFrame {
                                     + "1. Add a new book: Fill in the book details in the provided fields and click the 'Add' button.<br>"
                                     + "2. Edit a book: Select a book from the list, update its details in the fields, and click the 'Edit' button.<br>"
                                     + "3. Delete a book: Select a book from the list and click the 'Delete' button.<br>"
-                                    + "4. Search for books: Enter a search term in the search field and click the 'Search' button.<br>"
+                                    + "4. Search for books: Select by which variable the books will be filtered using the dropdown menu, enter a search term in the search field and click the 'Search' button.<br>"
                                     + "5. Import books: Click the 'Import' button to import books from a JSON file.<br>"
                                     + "6. Export books: Click the 'Export' button to export books to a JSON file.<br>"
-                                    + "7. Filter books by tag: Enter a tag in the search field and click the 'Search' button to filter books by tag.<br>"
+                                    + "7. If no JSON file is imported, operations will be performed on a auto generated 'new_books.json' file.<br>"
+                                    + "8. Use the 'Display all books / update list' button to update to visual list to reflect the results of the operations to the list visually.<br>"
                                     + "</div></html>");
 
         // Add the label to the content pane
